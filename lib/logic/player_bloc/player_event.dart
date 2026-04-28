@@ -17,3 +17,7 @@ class Seek extends PlayerEvent {
   final Duration position;
   Seek(this.position);
 }
+
+class NextSurah extends PlayerEvent {}
+
+class PreviousSurah extends PlayerEvent {}

@@ -17,7 +17,14 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
       add(UpdatePosition(pos, player.duration ?? Duration.zero));
     });
 
+    player.playerStateStream.listen((playerState) {
+      if (playerState.processingState == ProcessingState.completed) {
+        add(NextSurah());
+      }
+    });
+
     on<PlaySurah>((event, emit) async {
+      await player.pause();
       emit(state.copyWith(isLoading: true));
       try {
         final detail = await repository.getSurahDetail(event.surahNumber);
@@ -53,6 +60,26 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
       player.seek(
         event.position,
       ); // Memerintah just_audio pindah ke detik tertentu
+    });
+
+    on<NextSurah>((event, emit) {
+      if (state.currentSurah == null) return; // safety check
+
+      final nextNumber = state.currentSurah!.number + 1;
+      if (nextNumber <= 114) {
+        add(PlaySurah(nextNumber)); // reuse PlaySurah yang sudah ada
+      }
+      // kalau sudah di surah 114, tidak lakukan apa-apa
+    });
+
+    on<PreviousSurah>((event, emit) {
+      if (state.currentSurah == null) return;
+
+      final prevNumber = state.currentSurah!.number - 1;
+      if (prevNumber >= 1) {
+        add(PlaySurah(prevNumber));
+      }
+      // kalau sudah di surah 1, tidak lakukan apa-apa
     });
   }
 }

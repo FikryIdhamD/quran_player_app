@@ -137,10 +137,26 @@ class PlayerDetailScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Icon(Icons.shuffle, color: AppColors.lightGrey),
-                    const Icon(Icons.skip_previous, size: 42),
+                    // Shuffle (masih placeholder)
+                    IconButton(
+                      icon: const Icon(
+                        Icons.shuffle,
+                        color: AppColors.lightGrey,
+                      ),
+                      onPressed: () {}, // TODO: implement shuffle nanti
+                    ),
 
-                    // PLAY/PAUSE BUTTON
+                    // PREVIOUS SURAH
+                    IconButton(
+                      icon: const Icon(Icons.skip_previous, size: 42),
+                      color: AppColors.lightGrey,
+                      onPressed: state.currentSurah?.number == 1
+                          ? null
+                          : () =>
+                                context.read<PlayerBloc>().add(PreviousSurah()),
+                    ),
+
+                    // PLAY/PAUSE BUTTON (tetap sama seperti sebelumnya)
                     GestureDetector(
                       onTap: () => context.read<PlayerBloc>().add(TogglePlay()),
                       child: Container(
@@ -157,8 +173,23 @@ class PlayerDetailScreen extends StatelessWidget {
                       ),
                     ),
 
-                    const Icon(Icons.skip_next, size: 42),
-                    const Icon(Icons.repeat, color: AppColors.lightGrey),
+                    // NEXT SURAH
+                    IconButton(
+                      icon: const Icon(Icons.skip_next, size: 42),
+                      color: AppColors.lightGrey,
+                      onPressed: state.currentSurah?.number == 114
+                          ? null
+                          : () => context.read<PlayerBloc>().add(NextSurah()),
+                    ),
+
+                    // Repeat (masih placeholder)
+                    IconButton(
+                      icon: const Icon(
+                        Icons.repeat,
+                        color: AppColors.lightGrey,
+                      ),
+                      onPressed: () {}, // TODO: implement repeat nanti
+                    ),
                   ],
                 ),
               ],
