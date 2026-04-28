@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import '../../logic/favorite_cubit/favorite_cubit.dart';
 import '../../logic/player_bloc/player_bloc.dart';
 import '../../logic/player_bloc/player_event.dart';
 import '../../logic/player_bloc/player_state.dart';
@@ -58,7 +59,7 @@ class PlayerDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 48),
 
-                // 2. METADATA (Judul & Artist)
+                // 3. METADATA (Judul & Artist)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -72,6 +73,8 @@ class PlayerDetailScreen extends StatelessWidget {
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           const Text(
                             "Mishary Rashid Alafasy",
@@ -83,7 +86,32 @@ class PlayerDetailScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Icon(Icons.favorite_border, color: AppColors.green),
+
+                    // BUNGKUS DENGAN BLOC BUILDER
+                    BlocBuilder<FavoriteCubit, List<int>>(
+                      builder: (context, favorites) {
+                        // Cek apakah surah yang sedang di-play ada di list favorite
+                        final isFavorite = favorites.contains(
+                          state.currentSurah!.number,
+                        );
+
+                        return IconButton(
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: isFavorite
+                                ? Colors.red
+                                : AppColors.lightGrey,
+                            size: 32, // Sedikit dibesarkan biar enak diklik
+                          ),
+                          onPressed: () {
+                            // Jalankan fungsi toggle dari Cubit
+                            context.read<FavoriteCubit>().toggleFavorite(
+                              state.currentSurah!.number,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
                 const SizedBox(height: 32),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/theme/app_colors.dart';
 import 'injection.dart' as di;
+import 'logic/favorite_cubit/favorite_cubit.dart';
 import 'logic/player_bloc/player_bloc.dart';
 import 'logic/search_bloc/search_bloc.dart';
 import 'logic/search_bloc/search_event.dart';
@@ -28,6 +29,7 @@ class QuranPlayerApp extends StatelessWidget {
         BlocProvider(
           create: (context) => di.sl<SearchBloc>()..add(FetchSurahList()),
         ),
+        BlocProvider(create: (_) => FavoriteCubit()),
       ],
       child: MaterialApp(
         title: 'Quran Player',
