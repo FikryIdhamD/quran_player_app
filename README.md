@@ -1,16 +1,45 @@
-# quran_player_app
+# 📖 Quran Music Player (Spotify Style)
 
-A new Flutter project.
+A high-performance mobile application built with Flutter that provides a seamless Al-Quran audio listening experience using the Al-Quran Cloud API.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- **Spotify-Inspired UI:** Dark theme with a sleek, modern aesthetic.
+- **Dynamic Search:** Instant local filtering for all 114 Surahs.
+- **Verse-by-Verse Playback:** Seamlessly merges individual ayahs into a continuous surah stream.
+- **Persistent Mini Player:** Control audio while browsing the surah list.
+- **Full Player Detail:** Beautiful full-screen player with seeking functionality (Slider).
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+| Component            | Technology                        |
+| -------------------- | --------------------------------- |
+| **Language**         | Dart (Flutter)                    |
+| **State Management** | BLoC (Business Logic Component)   |
+| **Networking**       | Dio                               |
+| **Audio Engine**     | Just Audio                        |
+| **Service Locator**  | GetIt                             |
+| **Fonts**            | Google Fonts (Figtree/Montserrat) |
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🏗️ Architecture
+
+This project follows **Clean Architecture** principles to ensure scalability and maintainability:
+
+- **Data:** Models, Repositories Implementation, API Sources.
+- **Domain:** Entities, Repository Interfaces.
+- **Logic:** BLoC (Search & Player).
+- **Presentation:** Screens & Widgets.
+
+## ⚙️ How to Run
+
+1. Clone this repository.
+2. Run `flutter pub get` in the terminal.
+3. Run `flutter run`.
+
+## 🧪 Testing
+
+Run the following command to execute unit and widget tests:
+
+```bash
+flutter test
+```
