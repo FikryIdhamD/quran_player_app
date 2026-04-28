@@ -1,5 +1,5 @@
-name: Quran Player App
-description: "It's a simple Quran player app built with Flutter, using Bloc for state management and Just Audio for audio playback. The app allows users to browse and play Surahs from the Quran, providing a clean and intuitive interface for an enhanced listening experience."
+name: quran_player_app
+description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
