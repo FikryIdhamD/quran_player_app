@@ -21,3 +21,5 @@ class Seek extends PlayerEvent {
 class NextSurah extends PlayerEvent {}
 
 class PreviousSurah extends PlayerEvent {}
+
+class ToggleRepeat extends PlayerEvent {}

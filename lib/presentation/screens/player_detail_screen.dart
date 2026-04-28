@@ -143,20 +143,18 @@ class PlayerDetailScreen extends StatelessWidget {
                         Icons.shuffle,
                         color: AppColors.lightGrey,
                       ),
-                      onPressed: () {}, // TODO: implement shuffle nanti
+                      onPressed: () {}, // TODO: shuffle nanti
                     ),
 
                     // PREVIOUS SURAH
                     IconButton(
                       icon: const Icon(Icons.skip_previous, size: 42),
                       color: AppColors.lightGrey,
-                      onPressed: state.currentSurah?.number == 1
-                          ? null
-                          : () =>
-                                context.read<PlayerBloc>().add(PreviousSurah()),
+                      onPressed: () =>
+                          context.read<PlayerBloc>().add(PreviousSurah()),
                     ),
 
-                    // PLAY/PAUSE BUTTON (tetap sama seperti sebelumnya)
+                    // PLAY/PAUSE (tetap sama)
                     GestureDetector(
                       onTap: () => context.read<PlayerBloc>().add(TogglePlay()),
                       child: Container(
@@ -177,18 +175,21 @@ class PlayerDetailScreen extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.skip_next, size: 42),
                       color: AppColors.lightGrey,
-                      onPressed: state.currentSurah?.number == 114
-                          ? null
-                          : () => context.read<PlayerBloc>().add(NextSurah()),
+                      onPressed: () =>
+                          context.read<PlayerBloc>().add(NextSurah()),
                     ),
 
-                    // Repeat (masih placeholder)
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.repeat,
-                        color: AppColors.lightGrey,
+                        size: 32,
+                        color: state.isRepeating
+                            ? AppColors
+                                  .green // warna aktif
+                            : AppColors.lightGrey, // warna biasa
                       ),
-                      onPressed: () {}, // TODO: implement repeat nanti
+                      onPressed: () =>
+                          context.read<PlayerBloc>().add(ToggleRepeat()),
                     ),
                   ],
                 ),

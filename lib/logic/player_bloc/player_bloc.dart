@@ -25,6 +25,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
 
     on<PlaySurah>((event, emit) async {
       await player.pause();
+      player.setLoopMode(LoopMode.off);
       emit(state.copyWith(isLoading: true));
       try {
         final detail = await repository.getSurahDetail(event.surahNumber);
@@ -80,6 +81,18 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
         add(PlaySurah(prevNumber));
       }
       // kalau sudah di surah 1, tidak lakukan apa-apa
+    });
+
+    on<ToggleRepeat>((event, emit) {
+      if (state.currentSurah == null) return;
+
+      final newRepeating = !state.isRepeating;
+      final newLoopMode = newRepeating ? LoopMode.all : LoopMode.off;
+
+      // Terapkan ke just_audio player
+      player.setLoopMode(newLoopMode);
+
+      emit(state.copyWith(isRepeating: newRepeating));
     });
   }
 }
