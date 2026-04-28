@@ -8,6 +8,7 @@ class PlayerState extends Equatable {
   final Duration duration;
   final bool isLoading;
   final bool isRepeating;
+  final bool isShuffling;
 
   const PlayerState({
     this.currentSurah,
@@ -16,6 +17,7 @@ class PlayerState extends Equatable {
     this.duration = Duration.zero,
     this.isLoading = false,
     this.isRepeating = false,
+    this.isShuffling = false,
   });
 
   PlayerState copyWith({
@@ -25,6 +27,7 @@ class PlayerState extends Equatable {
     Duration? duration,
     bool? isLoading,
     bool? isRepeating,
+    bool? isShuffling,
   }) {
     return PlayerState(
       currentSurah: currentSurah ?? this.currentSurah,
@@ -33,6 +36,7 @@ class PlayerState extends Equatable {
       duration: duration ?? this.duration,
       isLoading: isLoading ?? this.isLoading,
       isRepeating: isRepeating ?? this.isRepeating,
+      isShuffling: isShuffling ?? this.isShuffling,
     );
   }
 
@@ -44,5 +48,6 @@ class PlayerState extends Equatable {
     duration,
     isLoading,
     isRepeating,
+    isShuffling,
   ];
 }

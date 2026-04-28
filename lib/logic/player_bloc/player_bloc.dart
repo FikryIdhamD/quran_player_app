@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart' hide PlayerState;
 import 'player_event.dart';
 import 'player_state.dart';
+import 'dart:math';
 import '../../data/repositories/surah_repository.dart';
 import '../../data/services/audio_handler.dart';
 
@@ -25,7 +26,8 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
 
     on<PlaySurah>((event, emit) async {
       await player.pause();
-      player.setLoopMode(LoopMode.off);
+      player.setLoopMode(LoopMode.off); // reset dulu
+      player.setShuffleModeEnabled(false);
       emit(state.copyWith(isLoading: true));
       try {
         final detail = await repository.getSurahDetail(event.surahNumber);
@@ -64,23 +66,43 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     });
 
     on<NextSurah>((event, emit) {
-      if (state.currentSurah == null) return; // safety check
+      if (state.currentSurah == null) return;
 
-      final nextNumber = state.currentSurah!.number + 1;
-      if (nextNumber <= 114) {
-        add(PlaySurah(nextNumber)); // reuse PlaySurah yang sudah ada
+      if (state.isRepeating) {
+        player.seek(Duration.zero);
+        if (!player.playing) {
+          player.play();
+        }
+        // Tidak perlu emit state baru, position listener sudah otomatis update
+      } else if (state.isShuffling) {
+        // Shuffle antar surah (tetap seperti sebelumnya)
+        int nextNumber;
+        do {
+          nextNumber = Random().nextInt(114) + 1;
+        } while (nextNumber == state.currentSurah!.number);
+        add(PlaySurah(nextNumber));
+      } else {
+        // Next surah biasa (urut)
+        int nextNumber = state.currentSurah!.number + 1;
+        if (nextNumber > 114) nextNumber = 1; // loop ke awal
+        add(PlaySurah(nextNumber));
       }
-      // kalau sudah di surah 114, tidak lakukan apa-apa
     });
 
     on<PreviousSurah>((event, emit) {
       if (state.currentSurah == null) return;
 
-      final prevNumber = state.currentSurah!.number - 1;
-      if (prevNumber >= 1) {
-        add(PlaySurah(prevNumber));
+      int prevNumber;
+      if (state.isShuffling) {
+        // Saat shuffle ON, Previous juga acak (lebih simpel & umum)
+        do {
+          prevNumber = Random().nextInt(114) + 1;
+        } while (prevNumber == state.currentSurah!.number);
+      } else {
+        prevNumber = state.currentSurah!.number - 1;
+        if (prevNumber < 1) prevNumber = 114; // loop ke akhir
       }
-      // kalau sudah di surah 1, tidak lakukan apa-apa
+      add(PlaySurah(prevNumber));
     });
 
     on<ToggleRepeat>((event, emit) {
@@ -93,6 +115,12 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
       player.setLoopMode(newLoopMode);
 
       emit(state.copyWith(isRepeating: newRepeating));
+    });
+
+    on<ToggleShuffle>((event, emit) {
+      if (state.currentSurah == null) return;
+      final newValue = !state.isShuffling;
+      emit(state.copyWith(isShuffling: newValue));
     });
   }
 }

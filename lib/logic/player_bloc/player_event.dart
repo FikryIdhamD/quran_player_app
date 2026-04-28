@@ -23,3 +23,5 @@ class NextSurah extends PlayerEvent {}
 class PreviousSurah extends PlayerEvent {}
 
 class ToggleRepeat extends PlayerEvent {}
+
+class ToggleShuffle extends PlayerEvent {}
