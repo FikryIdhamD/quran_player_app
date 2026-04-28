@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/surah_model.dart';
 import '../../core/theme/app_colors.dart';
+import '../../logic/player_bloc/player_bloc.dart';
+import '../../logic/player_bloc/player_event.dart';
 
 class SurahTile extends StatelessWidget {
   final SurahModel surah;
@@ -36,8 +39,7 @@ class SurahTile extends StatelessWidget {
       ),
       trailing: const Icon(Icons.more_vert, color: AppColors.lightGrey),
       onTap: () {
-        // Nanti di sini kita panggil PlayerBloc untuk putar audio
-        print("Tapped on ${surah.englishName}");
+        context.read<PlayerBloc>().add(PlaySurah(surah.number));
       },
     );
   }

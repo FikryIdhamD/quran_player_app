@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/theme/app_colors.dart';
 import 'injection.dart' as di;
+import 'logic/player_bloc/player_bloc.dart';
 import 'logic/search_bloc/search_bloc.dart';
 import 'logic/search_bloc/search_event.dart';
 import 'presentation/screens/home_screen.dart';
@@ -20,7 +21,10 @@ class QuranPlayerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // Mendaftarkan SearchBloc secara Global
+        BlocProvider(
+          create: (context) => di.sl<SearchBloc>()..add(FetchSurahList()),
+        ),
+        BlocProvider(create: (context) => di.sl<PlayerBloc>()), // Tambahkan ini
         BlocProvider(
           create: (context) => di.sl<SearchBloc>()..add(FetchSurahList()),
         ),
