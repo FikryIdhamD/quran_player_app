@@ -77,7 +77,45 @@ class HomeScreen extends StatelessWidget {
 
                     if (searchState is SearchError) {
                       return SliverFillRemaining(
-                        child: Center(child: Text(searchState.message)),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.wifi_off,
+                                size: 120,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                "Perikasa kembali koneksi internet Anda.",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  context.read<SearchBloc>().add(
+                                    FetchSurahList(),
+                                  );
+                                },
+                                icon: const Icon(Icons.refresh),
+                                label: const Text("Coba Lagi"),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.green,
+                                  foregroundColor: Colors.black,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 32,
+                                    vertical: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     }
 
@@ -89,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                     final allSurahs = searchState.filteredSurah;
 
                     return BlocBuilder<FavoriteCubit, List<int>>(
-                      // ✅ Hanya rebuild kalau favorite benar-benar berubah
+                      //Hanya rebuild kalau favorite benar-benar berubah
                       buildWhen: (previous, current) =>
                           previous.length != current.length ||
                           !previous.toSet().containsAll(current) ||
