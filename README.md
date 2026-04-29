@@ -14,7 +14,7 @@
 - **Mini Player** (persistent at bottom – Spotify style)
 - **Full-screen Player** with beautiful progress bar
 - Add/remove favorite surahs (saved locally)
-- Dark theme with Spotify-inspired design
+- Dark theme with Responsive design
 - Smooth progress bar with seeking support
 - Concatenated playlist per surah (all ayahs play continuously)
 
@@ -63,15 +63,27 @@ lib/
 
 ## 📸 Screenshots
 
-<img width="200" alt="Screenshot_20260429_114601" src="https://github.com/user-attachments/assets/aff9cc30-c420-4849-abb9-8672148d27f0" />
-<img width="200" alt="Screenshot_20260429_114609" src="https://github.com/user-attachments/assets/73ff7fab-dc6e-4f0f-9a53-48f7961a7cc1" />
-
-
 - Home Screen with search & favorites
+  
+  <img width="200" alt="Screenshot_20260429_130017" src="https://github.com/user-attachments/assets/744ee730-f8ba-40dd-91ba-70bed342ac5a" />
+  
 - Mini Player
-- Full Player Screen
-- Playing state with progress bar
+  
+  <img width="400" alt="Screenshot_20260429_130017(1)" src="https://github.com/user-attachments/assets/5809438c-d2ff-4a4c-b6d9-c6e6128ffdda" />
 
+- Full Player Screen
+  
+  <img width="200" alt="Screenshot_20260429_130027" src="https://github.com/user-attachments/assets/128d1837-ecc6-4cdc-a71b-44056a346c24" />
+  
+  
+- Playing state with progress bar
+  
+  <img height="200"  alt="Screenshot_20260429_130027(1)" src="https://github.com/user-attachments/assets/21cdcde4-8e28-425c-8b30-2a727e7f879c" />
+
+- Demo Video
+
+  [Demo Aplikasi Quran Player](https://drive.google.com/file/d/1aTFkuSlrJB-3PrDx0vi6YNgKWLKHcI4Y/view?usp=sharing)
+  
 ## 🧪 Bonus Implemented
 
 - Comprehensive code comments on every important line
