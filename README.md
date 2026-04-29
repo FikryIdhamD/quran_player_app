@@ -82,7 +82,7 @@ lib/
 
 - Demo Video
 
-  https://github.com/user-attachments/assets/668a7065-96a5-40f7-9e41-e60682ba958c
+  [Demo Aplikasi Quran Player](https://drive.google.com/file/d/1aTFkuSlrJB-3PrDx0vi6YNgKWLKHcI4Y/view?usp=sharing)
   
 ## 🧪 Bonus Implemented
 
