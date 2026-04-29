@@ -82,12 +82,7 @@ lib/
 
 - Demo Video
 
-https://github.com/user-attachments/assets/668a7065-96a5-40f7-9e41-e60682ba958c
-
-
-  
-
-
+  https://github.com/user-attachments/assets/668a7065-96a5-40f7-9e41-e60682ba958c
   
 ## 🧪 Bonus Implemented
 
