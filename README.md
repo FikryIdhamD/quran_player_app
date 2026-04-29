@@ -69,7 +69,7 @@ lib/
   
 - Mini Player
   
-  <img width="500" alt="Screenshot_20260429_130017(1)" src="https://github.com/user-attachments/assets/5809438c-d2ff-4a4c-b6d9-c6e6128ffdda" />
+  <img width="400" alt="Screenshot_20260429_130017(1)" src="https://github.com/user-attachments/assets/5809438c-d2ff-4a4c-b6d9-c6e6128ffdda" />
 
 - Full Player Screen
   
@@ -78,7 +78,16 @@ lib/
   
 - Playing state with progress bar
   
-  <img height="500"  alt="Screenshot_20260429_130027(1)" src="https://github.com/user-attachments/assets/21cdcde4-8e28-425c-8b30-2a727e7f879c" />
+  <img height="200"  alt="Screenshot_20260429_130027(1)" src="https://github.com/user-attachments/assets/21cdcde4-8e28-425c-8b30-2a727e7f879c" />
+
+- Demo Video
+
+https://github.com/user-attachments/assets/668a7065-96a5-40f7-9e41-e60682ba958c
+
+
+  
+
+
   
 ## 🧪 Bonus Implemented
 
