@@ -9,7 +9,6 @@ import 'injection.dart' as di;
 import 'logic/favorite_cubit/favorite_cubit.dart';
 import 'logic/player_bloc/player_bloc.dart';
 import 'logic/search_bloc/search_bloc.dart';
-import 'logic/search_bloc/search_event.dart';
 import 'presentation/screens/home_screen.dart';
 
 /// Entry point aplikasi.
