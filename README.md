@@ -63,7 +63,9 @@ lib/
 
 ## 📸 Screenshots
 
-*(Tambahkan screenshot atau screen recording di sini nanti)*
+*<img width="1080" height="2206" alt="Screenshot_20260429_114601" src="https://github.com/user-attachments/assets/aff9cc30-c420-4849-abb9-8672148d27f0" />*
+*<img width="1080" height="2206" alt="Screenshot_20260429_114609" src="https://github.com/user-attachments/assets/73ff7fab-dc6e-4f0f-9a53-48f7961a7cc1" />*
+
 
 - Home Screen with search & favorites
 - Mini Player
@@ -80,5 +82,5 @@ lib/
 
 ## 📝 Author
 
-**Your Name**  
+**Fikry Idham D**  
 Technical Test Submission – April 2026
