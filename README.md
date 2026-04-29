@@ -30,7 +30,7 @@
 - **Google Fonts (Figtree)** – Modern typography
 
 ## 📁 Project Structure
-
+```
 lib/
 ├── core/theme/              → AppColors & theme constants
 ├── data/
@@ -46,7 +46,7 @@ lib/
 │   └── widgets/             → MiniPlayer & SurahTile
 ├── injection.dart           → GetIt setup
 └── main.dart
-
+```
 ## 🚀 How to Run
 
 1. Clone the repository
