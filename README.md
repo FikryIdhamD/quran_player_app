@@ -64,15 +64,19 @@ lib/
 ## 📸 Screenshots
 
 - Home Screen with search & favorites
+  
   <img width="200" alt="Screenshot_20260429_130017" src="https://github.com/user-attachments/assets/744ee730-f8ba-40dd-91ba-70bed342ac5a" />
   
 - Mini Player
-  <img height="200" alt="Screenshot_20260429_130017(1)" src="https://github.com/user-attachments/assets/5809438c-d2ff-4a4c-b6d9-c6e6128ffdda" />
+  
+  <img width="200" alt="Screenshot_20260429_130017(1)" src="https://github.com/user-attachments/assets/5809438c-d2ff-4a4c-b6d9-c6e6128ffdda" />
 
 - Full Player Screen
+  
   <img width="200"  alt="Screenshot_20260429_130027(1)" src="https://github.com/user-attachments/assets/21cdcde4-8e28-425c-8b30-2a727e7f879c" />
   
 - Playing state with progress bar
+  
   <img height="200" alt="Screenshot_20260429_130027" src="https://github.com/user-attachments/assets/128d1837-ecc6-4cdc-a71b-44056a346c24" />
   
 ## 🧪 Bonus Implemented
