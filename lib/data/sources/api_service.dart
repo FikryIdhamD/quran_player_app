@@ -1,5 +1,8 @@
+// File: lib/data/sources/api_service.dart
+
 import 'package:dio/dio.dart';
 
+/// Service untuk mengelola semua HTTP request ke API AlQuran.cloud menggunakan Dio.
 class ApiService {
   final Dio _dio = Dio(
     BaseOptions(
@@ -9,12 +12,13 @@ class ApiService {
     ),
   );
 
-  // Menambahkan logger untuk memantau request di console
   ApiService() {
+    // Menambahkan LogInterceptor untuk debugging request & response di console
     _dio.interceptors.add(
-      LogInterceptor(responseBody: true, requestBody: true),
+      LogInterceptor(requestBody: true, responseBody: true, error: true),
     );
   }
 
+  /// Getter untuk mengakses instance Dio yang sudah dikonfigurasi.
   Dio get browser => _dio;
 }

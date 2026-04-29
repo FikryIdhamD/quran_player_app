@@ -1,11 +1,24 @@
+// File: lib/presentation/widgets/mini_player.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/theme/app_colors.dart';
 import '../../logic/player_bloc/player_bloc.dart';
 import '../../logic/player_bloc/player_event.dart';
 import '../../logic/player_bloc/player_state.dart';
-import '../../core/theme/app_colors.dart';
 import '../screens/player_detail_screen.dart';
 
+/// MiniPlayer adalah widget persisten di bagian bawah layar.
+///
+/// Widget ini berfungsi sebagai "now playing bar" yang selalu terlihat saat ada surah yang sedang diputar.
+/// Fitur utama:
+/// - Menampilkan nama surah, qari (Alafasy), dan progress bar
+/// - Tombol play/pause
+/// - Bisa di-tap untuk membuka layar pemutar penuh (PlayerDetailScreen)
+/// - Menggunakan BlocBuilder agar selalu sinkron dengan state PlayerBloc secara real-time
+///
+/// Desain mengadopsi gaya Spotify mini player agar user experience modern dan familiar.
 class MiniPlayer extends StatelessWidget {
   const MiniPlayer({super.key});
 
@@ -13,11 +26,12 @@ class MiniPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PlayerBloc, PlayerState>(
       builder: (context, state) {
+        // Jika belum ada surah yang diputar, widget ini tidak ditampilkan
         if (state.currentSurah == null) return const SizedBox.shrink();
 
         return GestureDetector(
           onTap: () {
-            // Navigasi ke halaman Detail
+            // Navigasi ke layar pemutar penuh
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -40,18 +54,23 @@ class MiniPlayer extends StatelessWidget {
               ],
             ),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Biar tingginya pas dengan isi
+              mainAxisSize: MainAxisSize.min, // Tinggi widget mengikuti konten
               children: [
+                // Bagian utama: ListTile dengan info surah dan kontrol
                 ListTile(
                   dense:
-                      true, // Membuat ListTile lebih ramping agar tidak overflow
+                      true, // Membuat tampilan lebih compact agar tidak overflow
                   leading: ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: Container(
                       color: AppColors.green,
                       width: 40,
                       height: 40,
-                      child: const Icon(Icons.music_note, color: Colors.black),
+                      child: const Icon(
+                        Icons.music_note,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     ),
                   ),
                   title: Text(
@@ -60,11 +79,11 @@ class MiniPlayer extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
-                    overflow: TextOverflow
-                        .ellipsis, // Jika judul kepanjangan tidak overflow
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   subtitle: const Text(
-                    "Alafasy",
+                    "Alafasy", // Nama qari yang digunakan
                     style: TextStyle(fontSize: 12, color: AppColors.lightGrey),
                   ),
                   trailing: state.isLoading
@@ -78,13 +97,17 @@ class MiniPlayer extends StatelessWidget {
                         )
                       : IconButton(
                           icon: Icon(
-                            state.isPlaying ? Icons.pause : Icons.play_arrow,
+                            state.isPlaying
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded,
+                            size: 28,
                           ),
                           onPressed: () =>
                               context.read<PlayerBloc>().add(TogglePlay()),
                         ),
                 ),
-                // Progress Bar tetap di bawah
+
+                // Progress bar di bawah ListTile
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: LinearProgressIndicator(
@@ -96,7 +119,7 @@ class MiniPlayer extends StatelessWidget {
                     minHeight: 2,
                   ),
                 ),
-                const SizedBox(height: 4), // Padding bawah dikit
+                const SizedBox(height: 4), // Jarak kecil di bagian bawah
               ],
             ),
           ),

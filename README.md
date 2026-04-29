@@ -1,45 +1,84 @@
-# 📖 Quran Music Player (Spotify Style)
+# Quran Player
 
-A high-performance mobile application built with Flutter that provides a seamless Al-Quran audio listening experience using the Al-Quran Cloud API.
+**A modern Quran audio player built with Flutter** using the public [AlQuran.cloud API](https://alquran.cloud).
 
-## 🚀 Features
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 
-- **Spotify-Inspired UI:** Dark theme with a sleek, modern aesthetic.
-- **Dynamic Search:** Instant local filtering for all 114 Surahs.
-- **Verse-by-Verse Playback:** Seamlessly merges individual ayahs into a continuous surah stream.
-- **Persistent Mini Player:** Control audio while browsing the surah list.
-- **Full Player Detail:** Beautiful full-screen player with seeking functionality (Slider).
+## ✨ Features
 
-## 🛠️ Tech Stack
+- Browse all 114 Surahs with English names and revelation info
+- **Real-time search** by surah English name
+- Full audio playback (play, pause, next, previous)
+- Shuffle and Repeat mode
+- **Mini Player** (persistent at bottom – Spotify style)
+- **Full-screen Player** with beautiful progress bar
+- Add/remove favorite surahs (saved locally)
+- Dark theme with Spotify-inspired design
+- Smooth progress bar with seeking support
+- Concatenated playlist per surah (all ayahs play continuously)
 
-| Component            | Technology                        |
-| -------------------- | --------------------------------- |
-| **Language**         | Dart (Flutter)                    |
-| **State Management** | BLoC (Business Logic Component)   |
-| **Networking**       | Dio                               |
-| **Audio Engine**     | Just Audio                        |
-| **Service Locator**  | GetIt                             |
-| **Fonts**            | Google Fonts (Figtree/Montserrat) |
+## 🛠 Tech Stack
 
-## 🏗️ Architecture
+- **Flutter** (latest stable)
+- **BLoC** – State management (PlayerBloc, SearchBloc, FavoriteCubit)
+- **just_audio** – Audio playback with playlist support
+- **Dio** – HTTP client + logging
+- **audio_video_progress_bar** – Beautiful progress bar
+- **GetIt** – Dependency Injection
+- **SharedPreferences** – Local favorite storage
+- **Google Fonts (Figtree)** – Modern typography
 
-This project follows **Clean Architecture** principles to ensure scalability and maintainability:
+## 📁 Project Structure
 
-- **Data:** Models, Repositories Implementation, API Sources.
-- **Domain:** Entities, Repository Interfaces.
-- **Logic:** BLoC (Search & Player).
-- **Presentation:** Screens & Widgets.
+lib/
+├── core/theme/              → AppColors & theme constants
+├── data/
+│   ├── models/              → SurahModel & AyahModel
+│   ├── repositories/        → SurahRepository
+│   └── sources/             → ApiService (Dio)
+├── logic/
+│   ├── favorite_cubit/      → Favorite management
+│   ├── player_bloc/         → Full audio logic
+│   └── search_bloc/         → Search & list management
+├── presentation/
+│   ├── screens/             → HomeScreen & PlayerDetailScreen
+│   └── widgets/             → MiniPlayer & SurahTile
+├── injection.dart           → GetIt setup
+└── main.dart
 
-## ⚙️ How to Run
+## 🚀 How to Run
 
-1. Clone this repository.
-2. Run `flutter pub get` in the terminal.
-3. Run `flutter run`.
+1. Clone the repository
+2. Run `flutter pub get`
+3. Run `flutter run`
 
-## 🧪 Testing
+**Note:** Make sure you have internet connection because audio is streamed from AlQuran.cloud.
 
-Run the following command to execute unit and widget tests:
+## 📡 API Used
 
-```bash
-flutter test
-```
+- Base URL: `https://api.alquran.cloud/v1/`
+- Endpoint list surah: `/surah`
+- Endpoint detail + audio: `/surah/{number}/ar.alafasy`
+
+## 📸 Screenshots
+
+*(Tambahkan screenshot atau screen recording di sini nanti)*
+
+- Home Screen with search & favorites
+- Mini Player
+- Full Player Screen
+- Playing state with progress bar
+
+## 🧪 Bonus Implemented
+
+- Comprehensive code comments on every important line
+- Clean Architecture + Repository Pattern
+- Proper error handling & loading states
+- Optimized BlocBuilder with `buildWhen`
+- Persistent mini player using Stack + Align
+
+## 📝 Author
+
+**Your Name**  
+Technical Test Submission – April 2026

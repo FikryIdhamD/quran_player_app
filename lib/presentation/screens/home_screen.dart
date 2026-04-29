@@ -1,17 +1,42 @@
+// File: lib/presentation/screens/home_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/theme/app_colors.dart';
+import '../../data/models/surah_model.dart';
+import '../../logic/favorite_cubit/favorite_cubit.dart';
 import '../../logic/search_bloc/search_bloc.dart';
 import '../../logic/search_bloc/search_event.dart';
 import '../../logic/search_bloc/search_state.dart';
-import '../../logic/favorite_cubit/favorite_cubit.dart';
-import '../../core/theme/app_colors.dart'; // ← pastikan import ini ada
-
 import '../widgets/mini_player.dart';
 import '../widgets/surah_tile.dart';
 
-class HomeScreen extends StatelessWidget {
+/// HomeScreen adalah layar utama aplikasi Quran Player.
+///
+/// Menggunakan CustomScrollView + Sliver untuk tampilan modern seperti Spotify.
+/// Fitur utama:
+/// - Header besar "Quran Player"
+/// - Search bar real-time yang terhubung ke SearchBloc
+/// - Daftar surah yang terbagi menjadi 2 section: **Favorites** (di atas) dan **All Surahs**
+/// - MiniPlayer yang selalu muncul di bagian bawah
+/// - Menggabungkan dua BLoC (SearchBloc + FavoriteCubit) untuk menampilkan data secara efisien
+///
+/// Desain ini memberikan pengalaman pengguna yang cepat, responsif, dan mudah dinavigasi.
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch data setelah UI pertama kali muncul
+    context.read<SearchBloc>().add(FetchSurahList());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +44,11 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            // CustomScrollView agar bisa menggunakan Sliver (header, search, list)
             CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: [
-                // Header Ala Spotify
+                // ==================== HEADER ====================
                 const SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
@@ -35,12 +62,13 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Search Bar
+                // ==================== SEARCH BAR ====================
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: TextField(
                       onChanged: (query) {
+                        // Kirim event filter ke SearchBloc setiap kali user mengetik
                         context.read<SearchBloc>().add(FilterSurah(query));
                       },
                       decoration: InputDecoration(
@@ -62,9 +90,11 @@ class HomeScreen extends StatelessWidget {
 
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
-                // ==================== DAFTAR SURAH (OPTIMIZED) ====================
+                // ==================== DAFTAR SURAH ====================
+                // BlocBuilder SearchBloc untuk menangani loading, error, dan data
                 BlocBuilder<SearchBloc, SearchState>(
                   builder: (context, searchState) {
+                    // Loading state
                     if (searchState is SearchLoading) {
                       return const SliverFillRemaining(
                         child: Center(
@@ -75,6 +105,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     }
 
+                    // Error state dengan tombol retry
                     if (searchState is SearchError) {
                       return SliverFillRemaining(
                         child: Center(
@@ -88,7 +119,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
                               Text(
-                                "Perikasa kembali koneksi internet Anda.",
+                                "Periksa kembali koneksi internet Anda.",
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 16,
@@ -119,6 +150,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     }
 
+                    // Jika tidak ada data atau filter kosong
                     if (searchState is! SearchLoaded ||
                         searchState.filteredSurah.isEmpty) {
                       return const SliverToBoxAdapter(child: SizedBox());
@@ -126,14 +158,14 @@ class HomeScreen extends StatelessWidget {
 
                     final allSurahs = searchState.filteredSurah;
 
+                    // BlocBuilder FavoriteCubit hanya rebuild saat daftar favorite benar-benar berubah
                     return BlocBuilder<FavoriteCubit, List<int>>(
-                      //Hanya rebuild kalau favorite benar-benar berubah
                       buildWhen: (previous, current) =>
                           previous.length != current.length ||
                           !previous.toSet().containsAll(current) ||
                           !current.toSet().containsAll(previous),
                       builder: (context, favorites) {
-                        // Pisahkan daftar
+                        // Pisahkan surah favorit dan non-favorit
                         final favoriteSurahs = allSurahs
                             .where((s) => favorites.contains(s.number))
                             .toList();
@@ -144,11 +176,13 @@ class HomeScreen extends StatelessWidget {
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              // 1. Favorites Section
+                              // ====================== SECTION FAVORITES ======================
                               if (favoriteSurahs.isNotEmpty) {
+                                // Header Favorites
                                 if (index == 0) {
                                   return _buildSectionHeader("Favorites");
                                 }
+                                // Item surah favorit
                                 if (index <= favoriteSurahs.length) {
                                   return SurahTile(
                                     surah: favoriteSurahs[index - 1],
@@ -156,15 +190,17 @@ class HomeScreen extends StatelessWidget {
                                 }
                               }
 
-                              // 2. All Surahs Section
+                              // ====================== SECTION ALL SURAHS ======================
                               final allStartIndex = favoriteSurahs.isNotEmpty
                                   ? favoriteSurahs.length + 1
                                   : 0;
 
+                              // Header All Surahs
                               if (index == allStartIndex) {
                                 return _buildSectionHeader("All Surahs");
                               }
 
+                              // Item surah biasa
                               final remainingIndex = index - allStartIndex - 1;
                               if (remainingIndex < otherSurahs.length) {
                                 return SurahTile(
@@ -184,10 +220,11 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
+                const SliverToBoxAdapter(child: SizedBox(height: 80)),
               ],
             ),
 
-            // Mini Player tetap di paling bawah
+            // MiniPlayer selalu di paling bawah (menggunakan Stack + Align)
             const Align(alignment: Alignment.bottomCenter, child: MiniPlayer()),
           ],
         ),
@@ -195,7 +232,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Helper method (const-friendly)
+  /// Helper untuk membuat header section (Favorites / All Surahs)
+  /// Menggunakan warna hijau Spotify agar konsisten dengan tema aplikasi.
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, top: 24, bottom: 8),
@@ -211,11 +249,17 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Helper untuk menghitung total item di SliverList
-  int _calculateChildCount(List<dynamic> favorites, List<dynamic> others) {
+  /// Menghitung total child yang dibutuhkan di SliverList.
+  /// Rumus: (Favorites header + items) + (All Surahs header + items)
+  int _calculateChildCount(
+    List<SurahModel> favorites,
+    List<SurahModel> others,
+  ) {
     int count = 0;
-    if (favorites.isNotEmpty) count += favorites.length + 1; // header + items
-    count += others.length + 1; // header + items
+    if (favorites.isNotEmpty) {
+      count += favorites.length + 1; // header + semua item favorit
+    }
+    count += others.length + 1; // header + semua item lainnya
     return count;
   }
 }
